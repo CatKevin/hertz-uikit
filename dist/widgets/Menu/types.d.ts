@@ -43,7 +43,7 @@ export interface PanelProps {
 }
 export interface NavProps extends PanelProps {
     account?: string;
-    login: Login;
+    login?: Login;
     profile?: Profile;
-    logout: () => void;
+    logout?: () => void;
 }

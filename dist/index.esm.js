@@ -2490,46 +2490,53 @@ var Icon$1b = function (props) {
         React.createElement("path", { d: "M6 14.6302L8.32183 15.9883V20.6244L12.3154 22.9424V25.6585L6 21.9824V14.6302Z", fill: "#F0B90B" })));
 };
 
+var ConnectorNames;
+(function (ConnectorNames) {
+    ConnectorNames["Injected"] = "injected";
+    ConnectorNames["WalletConnect"] = "walletconnect";
+    ConnectorNames["BSC"] = "bsc";
+})(ConnectorNames || (ConnectorNames = {}));
+
 var connectors = [
     {
         title: "Metamask",
         icon: Icon$16,
-        connectorId: "injected",
+        connectorId: ConnectorNames.Injected,
     },
     {
         title: "TrustWallet",
         icon: Icon$19,
-        connectorId: "injected",
+        connectorId: ConnectorNames.Injected,
     },
     {
         title: "MathWallet",
         icon: Icon$17,
-        connectorId: "injected",
+        connectorId: ConnectorNames.Injected,
     },
     {
         title: "TokenPocket",
         icon: Icon$18,
-        connectorId: "injected",
+        connectorId: ConnectorNames.Injected,
     },
     {
         title: "WalletConnect",
         icon: Icon$1a,
-        connectorId: "walletconnect",
+        connectorId: ConnectorNames.WalletConnect,
     },
     {
         title: "Binance Chain Wallet",
         icon: Icon$1b,
-        connectorId: "bsc",
+        connectorId: ConnectorNames.BSC,
     },
 ];
-var localStorageKey = "accountStatus";
+var connectorLocalStorageKey = "connectorId";
 
 var WalletCard = function (_a) {
     var login = _a.login, walletConfig = _a.walletConfig, onDismiss = _a.onDismiss, mb = _a.mb;
     var title = walletConfig.title, Icon = walletConfig.icon;
     return (React.createElement(Button, { fullWidth: true, variant: "tertiary", onClick: function () {
             login(walletConfig.connectorId);
-            window.localStorage.setItem(localStorageKey, "1");
+            window.localStorage.setItem(connectorLocalStorageKey, "1");
             onDismiss();
         }, style: { justifyContent: "space-between" }, mb: mb, id: "wallet-connect-" + title.toLocaleLowerCase() },
         React.createElement(Text, { bold: true, color: "primary", mr: "16px" }, title),
@@ -2585,7 +2592,7 @@ var AccountModal = function (_a) {
         React.createElement(Flex, { justifyContent: "center" },
             React.createElement(Button, { size: "sm", variant: "secondary", onClick: function () {
                     logout();
-                    window.localStorage.removeItem(localStorageKey);
+                    window.localStorage.removeItem(connectorLocalStorageKey);
                     onDismiss();
                     window.location.reload();
                 } }, "Logout"))));
@@ -2607,6 +2614,11 @@ var UserBlock = function (_a) {
             onPresentConnectModal();
         } }, "Connect"))));
 };
+var UserBlock$1 = React.memo(UserBlock, function (prevProps, nextProps) {
+    return prevProps.account === nextProps.account &&
+        prevProps.login === nextProps.login &&
+        prevProps.logout === nextProps.logout;
+});
 
 var Icon$1c = function (props) {
     var theme = useTheme();
@@ -2710,9 +2722,9 @@ var Menu = function (_a) {
     return (React.createElement(Wrapper$1, null,
         React.createElement(StyledNav, { showMenu: showMenu },
             React.createElement(Logo$1, { isPushed: isPushed, togglePush: function () { return setIsPushed(function (prevState) { return !prevState; }); }, isDark: isDark, href: (_b = homeLink === null || homeLink === void 0 ? void 0 : homeLink.href) !== null && _b !== void 0 ? _b : "/" }),
-            React.createElement(Flex, null,
-                React.createElement(UserBlock, { account: account, login: login, logout: logout }),
-                profile && React.createElement(Avatar, { profile: profile }))),
+            !!login && !!logout && (React.createElement(Flex, null,
+                React.createElement(UserBlock$1, { account: account, login: login, logout: logout }),
+                profile && React.createElement(Avatar, { profile: profile })))),
         React.createElement(BodyWrapper, null,
             React.createElement(Panel, { isPushed: isPushed, isMobile: isMobile, showMenu: showMenu, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, pushNav: setIsPushed, links: links, priceLink: priceLink }),
             React.createElement(Inner, { isPushed: isPushed, showMenu: showMenu }, children),
@@ -2969,4 +2981,4 @@ var darkTheme = __assign(__assign({}, base), { isDark: true, alert: dark, button
 
 var lightTheme = __assign(__assign({}, base), { isDark: false, alert: light, button: light$1, colors: lightColors, card: light$2, toggle: light$4, nav: light$5, modal: light$6, radio: light$3 });
 
-export { Icon$4 as AddIcon, Alert, Icon$5 as ArrowBackIcon, Icon$6 as ArrowDownIcon, Icon$7 as ArrowDropDownIcon, Icon$8 as ArrowDropUpIcon, Icon$9 as ArrowForwardIcon, Icon$a as AutoRenewIcon, BackgroundImage, GridLayout as BaseLayout, Icon$b as BinanceIcon, Icon$2 as BlockIcon, Breadcrumbs, Icon$c as BunnyPlaceholderIcon, Button, ButtonMenu, ButtonMenuItem, Icon$e as CalculateIcon, Card, CardBody, CardFooter, CardHeader, CardRibbon, Icon$d as CardViewIcon, GridLayout$1 as CardsLayout, Checkbox, Icon as CheckmarkCircleIcon, Icon$f as CheckmarkIcon, Icon$g as ChevronDownIcon, Icon$h as ChevronLeftIcon, Icon$i as ChevronRightIcon, Icon$j as ChevronUpIcon, Icon$k as CloseIcon, Icon$l as CogIcon, Icon$m as CommunityIcon, Icon$n as CopyIcon, CopyToClipboard, Dropdown, Icon$1 as ErrorIcon, Flex, Icon$w as GooseRoundIcon, Heading, Icon$o as HelpIcon, IconButton, Image, Icon$3 as InfoIcon, Input, Link, LinkExternal, Icon$p as ListViewIcon, Icon$q as LogoIcon, Icon$r as LogoRoundIcon, Menu, Icon$s as MinusIcon, Modal, ModalProvider, Icon$t as OpenNewIcon, Icon$v as PancakeRoundIcon, Icon$u as PancakesIcon, Icon$x as PrizeIcon, Progress, Icon$A as ProgressBunny, Radio, Icon$y as RemoveIcon, ResetCSS, Icon$E as SearchIcon, Skeleton, Spinner, Svg, Icon$F as SwapVertIcon, Icon$G as SyncAltIcon, Tag, Text, Icon$C as Ticket, Icon$D as TicketRound, ToastContainer, Toggle, Icon$z as VerifiedIcon, Icon$H as WarningIcon, Icon$B as Won, variants$1 as alertVariants, byTextAscending, byTextDescending, darkTheme as dark, darkColors, lightTheme as light, lightColors, makeRender, links as menuConfig, types as toastTypes, useMatchBreakpoints, useModal, useParticleBurst, useTable, useWalletModal };
+export { Icon$4 as AddIcon, Alert, Icon$5 as ArrowBackIcon, Icon$6 as ArrowDownIcon, Icon$7 as ArrowDropDownIcon, Icon$8 as ArrowDropUpIcon, Icon$9 as ArrowForwardIcon, Icon$a as AutoRenewIcon, BackgroundImage, GridLayout as BaseLayout, Icon$b as BinanceIcon, Icon$2 as BlockIcon, Breadcrumbs, Icon$c as BunnyPlaceholderIcon, Button, ButtonMenu, ButtonMenuItem, Icon$e as CalculateIcon, Card, CardBody, CardFooter, CardHeader, CardRibbon, Icon$d as CardViewIcon, GridLayout$1 as CardsLayout, Checkbox, Icon as CheckmarkCircleIcon, Icon$f as CheckmarkIcon, Icon$g as ChevronDownIcon, Icon$h as ChevronLeftIcon, Icon$i as ChevronRightIcon, Icon$j as ChevronUpIcon, Icon$k as CloseIcon, Icon$l as CogIcon, Icon$m as CommunityIcon, ConnectorNames, Icon$n as CopyIcon, Dropdown, Icon$1 as ErrorIcon, Flex, Icon$w as GooseRoundIcon, Heading, Icon$o as HelpIcon, IconButton, Image, Icon$3 as InfoIcon, Input, Link, LinkExternal, Icon$p as ListViewIcon, Icon$q as LogoIcon, Icon$r as LogoRoundIcon, Menu, Icon$s as MinusIcon, Modal, ModalProvider, Icon$t as OpenNewIcon, Icon$v as PancakeRoundIcon, Icon$u as PancakesIcon, Icon$x as PrizeIcon, Progress, Icon$A as ProgressBunny, Radio, Icon$y as RemoveIcon, ResetCSS, Icon$E as SearchIcon, Skeleton, Spinner, Svg, Icon$F as SwapVertIcon, Icon$G as SyncAltIcon, Tag, Text, Icon$C as Ticket, Icon$D as TicketRound, ToastContainer, Toggle, Icon$z as VerifiedIcon, Icon$H as WarningIcon, Icon$B as Won, variants$1 as alertVariants, byTextAscending, byTextDescending, connectorLocalStorageKey, darkTheme as dark, darkColors, lightTheme as light, lightColors, makeRender, links as menuConfig, types as toastTypes, useMatchBreakpoints, useModal, useParticleBurst, useTable, useWalletModal };

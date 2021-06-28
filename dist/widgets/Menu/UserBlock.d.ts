@@ -5,5 +5,5 @@ interface Props {
     login: Login;
     logout: () => void;
 }
-declare const UserBlock: React.FC<Props>;
-export default UserBlock;
+declare const _default: React.NamedExoticComponent<Props>;
+export default _default;
