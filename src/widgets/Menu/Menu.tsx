@@ -72,6 +72,7 @@ const Menu: React.FC<NavProps> = ({
   priceLink,
   profile,
   children,
+  error,
 }) => {
   const { isXl } = useMatchBreakpoints();
   const isMobile = isXl === false;
@@ -122,7 +123,7 @@ const Menu: React.FC<NavProps> = ({
         />
         {!!login && !!logout && (
           <Flex>
-            <UserBlock account={account} login={login} logout={logout} />
+            <UserBlock account={account} login={login} logout={logout} error={error} />
             {profile && <Avatar profile={profile} />}
           </Flex>
         )}

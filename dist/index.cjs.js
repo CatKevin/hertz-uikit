@@ -2610,26 +2610,52 @@ var AccountModal = function (_a) {
                 } }, "Logout"))));
 };
 
+var WrongNetworkModal = function (_a) {
+    var logout = _a.logout, _b = _a.onDismiss, onDismiss = _b === void 0 ? function () { return null; } : _b;
+    return (React__default['default'].createElement(Modal, { title: "Network Issue", onDismiss: onDismiss },
+        React__default['default'].createElement(Text, { fontSize: "20px", bold: true, style: { whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: "8px" } }, "Currently, we only support Polygon (MATIC). Please switch to this network."),
+        React__default['default'].createElement(Button, { size: "sm", variant: "secondary", onClick: function () {
+                logout();
+                window.localStorage.removeItem(connectorLocalStorageKey);
+                onDismiss();
+                window.location.reload();
+            } }, "Logout")));
+};
+
 var useWalletModal = function (login, logout, account) {
     var onPresentConnectModal = useModal(React__default['default'].createElement(ConnectModal, { login: login }))[0];
     var onPresentAccountModal = useModal(React__default['default'].createElement(AccountModal, { account: account || "", logout: logout }))[0];
-    return { onPresentConnectModal: onPresentConnectModal, onPresentAccountModal: onPresentAccountModal };
+    var onPresentWrongNetworkModal = useModal(React__default['default'].createElement(WrongNetworkModal, { logout: logout }))[0];
+    return { onPresentConnectModal: onPresentConnectModal, onPresentAccountModal: onPresentAccountModal, onPresentWrongNetworkModal: onPresentWrongNetworkModal };
 };
 
 var UserBlock = function (_a) {
-    var account = _a.account, login = _a.login, logout = _a.logout;
-    var _b = useWalletModal(login, logout, account), onPresentConnectModal = _b.onPresentConnectModal, onPresentAccountModal = _b.onPresentAccountModal;
+    var account = _a.account, login = _a.login, logout = _a.logout, error = _a.error;
+    var _b = useWalletModal(login, logout, account), onPresentConnectModal = _b.onPresentConnectModal, onPresentAccountModal = _b.onPresentAccountModal, onPresentWrongNetworkModal = _b.onPresentWrongNetworkModal;
     var accountEllipsis = account ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : null;
-    return (React__default['default'].createElement("div", null, account ? (React__default['default'].createElement(Button, { size: "sm", variant: "tertiary", onClick: function () {
-            onPresentAccountModal();
-        } }, accountEllipsis)) : (React__default['default'].createElement(Button, { size: "sm", onClick: function () {
-            onPresentConnectModal();
-        } }, "Connect"))));
+    var comp;
+    if (error) {
+        comp = React__default['default'].createElement(Button, { size: "sm", variant: "danger", onClick: function () {
+                onPresentWrongNetworkModal();
+            } }, "Wrong Network");
+    }
+    else if (account) {
+        comp = React__default['default'].createElement(Button, { size: "sm", variant: "tertiary", onClick: function () {
+                onPresentAccountModal();
+            } }, accountEllipsis);
+    }
+    else {
+        comp = React__default['default'].createElement(Button, { size: "sm", onClick: function () {
+                onPresentConnectModal();
+            } }, "Connect");
+    }
+    return (React__default['default'].createElement("div", null, comp));
 };
 var UserBlock$1 = React__default['default'].memo(UserBlock, function (prevProps, nextProps) {
     return prevProps.account === nextProps.account &&
         prevProps.login === nextProps.login &&
-        prevProps.logout === nextProps.logout;
+        prevProps.logout === nextProps.logout &&
+        prevProps.error === nextProps.error;
 });
 
 var Icon$1c = function (props) {
@@ -2695,7 +2721,7 @@ var MobileOnlyOverlay = styled__default['default'](Overlay)(templateObject_5$1 |
 });
 var Menu = function (_a) {
     var _b;
-    var account = _a.account, login = _a.login, logout = _a.logout, isDark = _a.isDark, toggleTheme = _a.toggleTheme, langs = _a.langs, setLang = _a.setLang, currentLang = _a.currentLang, cakePriceUsd = _a.cakePriceUsd, links = _a.links, priceLink = _a.priceLink, profile = _a.profile, children = _a.children;
+    var account = _a.account, login = _a.login, logout = _a.logout, isDark = _a.isDark, toggleTheme = _a.toggleTheme, langs = _a.langs, setLang = _a.setLang, currentLang = _a.currentLang, cakePriceUsd = _a.cakePriceUsd, links = _a.links, priceLink = _a.priceLink, profile = _a.profile, children = _a.children, error = _a.error;
     var isXl = useMatchBreakpoints().isXl;
     var isMobile = isXl === false;
     var _c = React.useState(!isMobile), isPushed = _c[0], setIsPushed = _c[1];
@@ -2735,7 +2761,7 @@ var Menu = function (_a) {
         React__default['default'].createElement(StyledNav, { showMenu: showMenu },
             React__default['default'].createElement(Logo$1, { isPushed: isPushed, togglePush: function () { return setIsPushed(function (prevState) { return !prevState; }); }, isDark: isDark, href: (_b = homeLink === null || homeLink === void 0 ? void 0 : homeLink.href) !== null && _b !== void 0 ? _b : "/" }),
             !!login && !!logout && (React__default['default'].createElement(Flex, null,
-                React__default['default'].createElement(UserBlock$1, { account: account, login: login, logout: logout }),
+                React__default['default'].createElement(UserBlock$1, { account: account, login: login, logout: logout, error: error }),
                 profile && React__default['default'].createElement(Avatar, { profile: profile })))),
         React__default['default'].createElement(BodyWrapper, null,
             React__default['default'].createElement(Panel, { isPushed: isPushed, isMobile: isMobile, showMenu: showMenu, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, pushNav: setIsPushed, links: links, priceLink: priceLink }),

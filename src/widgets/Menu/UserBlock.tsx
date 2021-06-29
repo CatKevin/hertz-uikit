@@ -7,34 +7,46 @@ interface Props {
   account?: string;
   login: Login;
   logout: () => void;
+  error?: Error;
 }
 
-const UserBlock: React.FC<Props> = ({ account, login, logout }) => {
-  const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(login, logout, account);
+const UserBlock: React.FC<Props> = ({ account, login, logout, error }) => {
+  const { onPresentConnectModal, onPresentAccountModal, onPresentWrongNetworkModal } = useWalletModal(login, logout, account);
   const accountEllipsis = account ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}` : null;
+
+  let comp;
+  if (error) {
+    comp = <Button
+      size="sm"
+      variant="danger"
+      onClick={() => {
+        onPresentWrongNetworkModal();
+      }}
+    >
+      Wrong Network
+    </Button>
+  } else if (account) {
+    comp = <Button
+      size="sm"
+      variant="tertiary"
+      onClick={() => {
+        onPresentAccountModal();
+      }}
+    >
+      {accountEllipsis}
+    </Button>
+  } else {
+    comp = <Button
+      size="sm"
+      onClick={() => {
+        onPresentConnectModal();
+      }}
+    >
+      Connect
+    </Button>
+  }
   return (
-    <div>
-      {account ? (
-        <Button
-          size="sm"
-          variant="tertiary"
-          onClick={() => {
-            onPresentAccountModal();
-          }}
-        >
-          {accountEllipsis}
-        </Button>
-      ) : (
-        <Button
-          size="sm"
-          onClick={() => {
-            onPresentConnectModal();
-          }}
-        >
-          Connect
-        </Button>
-      )}
-    </div>
+    <div>{comp}</div>
   );
 };
 
@@ -43,5 +55,6 @@ export default React.memo(
   (prevProps, nextProps) =>
     prevProps.account === nextProps.account &&
     prevProps.login === nextProps.login &&
-    prevProps.logout === nextProps.logout
+    prevProps.logout === nextProps.logout &&
+    prevProps.error === nextProps.error
 );
