@@ -1,14 +1,14 @@
 {
-  "name": "leek-uikit",
-  "version": "1.4.3",
-  "description": "Set of UI components for leek projects",
+  "name": "hertz-uikit",
+  "version": "0.0.2",
+  "description": "Set of UI components for hertz projects",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/cryptoleek-team/leek-uikit",
+  "repository": "https://github.com/HertzFinance/hertz-uikit",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c && tsc -d --emitDeclarationOnly --declarationDir dist",
