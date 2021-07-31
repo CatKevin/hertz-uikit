@@ -1,22 +1,22 @@
-# Leek UIkit
+# Hertz UIkit
 
-[![Version](https://img.shields.io/npm/v/@pancakeswap-libs/uikit)](https://github.com/cryptoleek-team/leek-uikit) [![Size](https://img.shields.io/bundlephobia/min/@pancakeswap-libs/uikit)](https://www.npmjs.com/package/leek-uikit)
+[![Version](https://img.shields.io/npm/v/@pancakeswap-libs/uikit)](https://github.com/HertzFinance/hertz-uikit) [![Size](https://img.shields.io/bundlephobia/min/@pancakeswap-libs/uikit)](https://www.npmjs.com/package/hertz-uikit)
 
-Leek UIkit is a set of React components and hooks used to build pages on Leek Finance's apps. It also contains a theme file for dark and light mode.
+Hertz UIkit is a set of React components and hooks used to build pages on Hertz Finance's apps. It also contains a theme file for dark and light mode.
 
 ## Install
 
-`yarn add leek-uikit`
+`yarn add hertz-uikit`
 
 ## Setup
 
 ### Theme
 
-Before using Leek UIkit, you need to provide the theme file to styled-component.
+Before using Hertz UIkit, you need to provide the theme file to styled-component.
 
 ```
 import { ThemeProvider } from 'styled-components'
-import { light, dark } from 'leek-uikit'
+import { light, dark } from 'hertz-uikit'
 ...
 <ThemeProvider theme={isDark}>...</ThemeProvider>
 ```
@@ -26,7 +26,7 @@ import { light, dark } from 'leek-uikit'
 A reset CSS is available as a global styled component.
 
 ```
-import { ResetCSS } from 'leek-uikit'
+import { ResetCSS } from 'hertz-uikit'
 ...
 <ResetCSS />
 ```
@@ -37,4 +37,4 @@ This project is built with Typescript and export all the relevant types.
 
 ## How to use the UIkit
 
-If you want to use components from the UIkit, check the [Storybook documentation](https://github.com/cryptoleek-team/leek-uikit)
+If you want to use components from the UIkit, check the [Storybook documentation](https://github.com/HertzFinance/hertz-uikit)
